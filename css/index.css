@@ -1,0 +1,91 @@
+/* Reset default margin & padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body styling */
+body {
+    background-color: #f4f4f4;
+}
+
+/* Full-Width Navbar */
+nav {
+    width: 100%;
+    background-color: #007bff;
+    padding: 15px 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* Navbar Content */
+nav h1 {
+    font-size: 24px;
+}
+
+nav button {
+    background-color: white;
+    color: #007bff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+nav button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Centered Search & Filter */
+div {
+    text-align: center;
+    margin-top: 20px;
+}
+
+input, select, button {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Packages List */
+#packagesContainer {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Message for No Packages */
+#packagesContainer p {
+    font-size: 18px;
+    color: #666;
+}
+
+/* Package Items */
+#packagesContainer div {
+    background-color: #e9ecef;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-size: 18px;
+}

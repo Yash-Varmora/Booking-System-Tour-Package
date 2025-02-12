@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication</title>
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+
+<body>
+    <h1 class="title">Tour Booking System</h1>
+    <div class="auth-container">
+        <div class="card">
+
+            <div id="login-form" class="form active">
+                <h3>Login</h3>
+                <input type="text" id="lname" class="input-field" placeholder="Enter name or e-mail">
+                <!-- <input type="email" id="email" placeholder="Enter your email"> -->
+                <input type="password" id="lpassword" class="input-field" placeholder="Enter your password">
+                <button id="login" class="btn">login</button>
+                <span class="sp">Don't have an account? <a href="#" id="show-register">Register</a></span>
+            </div>
+
+            <div id="register-form" class="form">
+                <h3>Register</h3>
+                <input type="text" id="rname" class="input-field" placeholder="Enter your name">
+                <input type="email" id="remail" class="input-field" placeholder="Enter your email">
+                <input type="password" id="rpassword" class="input-field" placeholder="Enter your password">
+                <input type="password" id="rconfirmPassword" class="input-field" placeholder="Confirm your password">
+                <button id="register" class="btn">Register</button>
+                <span class="sp">Already have an account? <a href="#" id="show-login">Login</a></span>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+</body>
+
+</html>
