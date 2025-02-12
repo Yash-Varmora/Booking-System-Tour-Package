@@ -13,6 +13,21 @@ document.getElementById('show-login').addEventListener('click', function() {
 const getuser = () => JSON.parse(localStorage.getItem('users')) || [];
 const saveUser = (users) => localStorage.setItem('users', JSON.stringify(users));
 
+const initializeAdmin = () => {
+    let users = getuser();
+    const adminExists = users.some(user => user.email === "admin@gmail.com");
+
+    if (!adminExists) {
+        users.push({ name: "Admin", email: "admin@gmail.com", password: "admin" });
+        saveUser(users);
+        console.log("Admin account initialized.");
+    }
+};
+
+// Call this function when the script loads
+initializeAdmin();
+
+
 const isempty = (...args) => args.some((arg) => arg.trim() === "");
 const ispassword = (password) => password.length >= 6;
 const isemailvalid = (email) => email.includes("@");
@@ -46,13 +61,32 @@ const loginuser = () => {
     if (isempty(email, password)) return showAlert('All fields are required!');
     // if (!isemailvalid(email)) return showAlert('Invalid email address!');
 
+    if ((email === "admin@gmail.com" || email=== "Admin") && password === "admin") {
+        showAlert("Welcome, Admin! Redirecting to dashboard...", true);
+        window.location.href = "adminDashboard.html";
+        return;
+    }
+    
     let users = getuser();
-    const validuser = users.find((user) => user.email === email || user.name === email && user.password === password);
-    // validuser ? showAlert(`Welcome, ${validuser.name} ! Login successful.`) : showAlert("Invalid email or password!");
-    if(validuser){
-        showAlert(`Welcome, ${validuser.name} ! Login successful.`);
+    // const validuser = users.find((user) => (user.email === email || user.name === email) && user.password === password);
+    // // validuser ? showAlert(`Welcome, ${validuser.name} ! Login successful.`) : showAlert("Invalid email or password!");
+    // if(validuser){
+    //     showAlert(`Welcome, ${validuser.name} ! Login successful.`);
+    //     window.location.href = "index.html";
+    // }else{
+    //     showAlert("Invalid email or password!");
+    // }
+
+    let validuserIndex = users.findIndex(user => (user.email === email || user.name === email) && user.password === password);
+
+    if (validuserIndex !== -1) {
+        users[validuserIndex].loggedIn = true; // ✅ Add "loggedIn" without overwriting
+        saveUser(users);
+        localStorage.setItem("loggedInUser", JSON.stringify(users[validuserIndex])); // ✅ Store logged-in user separately
+
+        showAlert(`Welcome, ${users[validuserIndex].name}! Login successful.`);
         window.location.href = "index.html";
-    }else{
+    } else {
         showAlert("Invalid email or password!");
     }
 };

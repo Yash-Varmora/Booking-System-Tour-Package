@@ -13,13 +13,11 @@
         <div>
             <h1>My Logo</h1>
         </div>
-        <div>
-            <button id="loginBtn">Login/Signup</button>
-        </div>
+        <div id="authContainer"></div>
     </nav>
 
     <!-- Search & Filter -->
-    <div>
+    <div class="search-filter-container">
         <input type="text" id="searchInput" placeholder="Search packages...">
         <select id="filterSelect">
             <option value="">All Categories</option>
@@ -32,6 +30,9 @@
 
     <!-- Packages List -->
     <div id="packagesContainer"></div>
+
+    <!-- Pagination -->
+    <div id="pagination"></div>
 
     <script src="../js/index.js"></script>
 </body>
