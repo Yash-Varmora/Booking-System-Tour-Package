@@ -12,6 +12,25 @@
             <input type="text" id="pkgName" placeholder="Package Name" required>
             <textarea id="pkgDetail" placeholder="Package Detail" required></textarea>
             <input type="number" placeholder="Price" id="pkgPrice" required>
+
+             <label for="pkgCategory">Select Category:</label>
+            <select id="pkgCategory" required>
+                 <option value="">Select a category</option>
+                <option value="adventure">Adventure Tours</option>
+                <option value="pilgrimage">Pilgrimage Tours</option>
+                <option value="wildlife">Wildlife Tours</option>
+                <option value="wellness">Wellness & Spa Tours</option>
+                <option value="cultural">Cultural & Heritage Tours</option>
+                <option value="eco">Eco-Tours</option>
+                <option value="business">Business & Corporate Tours</option>
+                <option value="educational">Educational Tours</option>
+                <option value="cruise">Cruise Tours</option>
+            </select>
+            
+            <label for="pkgSubCategory">Select Subcategory:</label>
+            <select id="pkgSubCategory" required>
+                <option value="">Select a subcategory</option>
+            </select>
             <input type="file" id="pkgImage" accept="image/*">
             <button type="submit" id="submitButton">Add Package</button>
         </form>
