@@ -39,5 +39,5 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.removeItem("activePage");
     alert("You have been logged out.");
-    window.location.href = "";
+    window.location.href = "index.html";
 });

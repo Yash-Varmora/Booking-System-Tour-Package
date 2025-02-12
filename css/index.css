@@ -13,9 +13,17 @@ body {
 nav {
     display: flex;
     justify-content: space-between;
-    background-color: #007bff;
+    background-color: #6f6f6f66;
     color: white;
     padding: 15px 20px;
+    
+}
+nav div img {
+    width: 80px;
+    height: auto; 
+    border-radius: 8px; 
+    object-fit: contain;
+    mix-blend-mode: multiply;
 }
 
 /* Search & Filter */
