@@ -42,11 +42,15 @@ function displayPackages(page = 1) {
         card.classList.add("package-card");
 
         card.innerHTML = `
-            <img src="${pkg.imgSrc}" alt="${pkg.name}">
-            <h3>${pkg.name}</h3>
-            <p>${pkg.detail}</p>
-            <p class="price">Price: ₹${pkg.price}</p>
-            <button class="book-now" data-id="${pkg.id}">Book Now</button>
+            <img src="${pkg.imgSrc}" alt="${pkg.name}" class="card-img">
+            <div class="card-content">
+        <h3 class="card-title">${pkg.name}</h3>
+        <p class="card-detail">${pkg.detail}</p>
+        <p class="card-price">Price: &#8377;${pkg.price}</p>
+        <p class="card-category">Category: ${pkg.category}</p>
+        <p class="card-subcategory">Subcategory: ${pkg.subCategory}</p>
+        <button class="book-now" data-id="${pkg.id}">Book Now</button>
+        </div>
         `;
 
         container.appendChild(card);
