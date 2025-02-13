@@ -26,6 +26,8 @@ const loadPackages = () => {
     packageList.innerHTML = "";
     pagination.innerHTML = "";
 
+    packages.reverse()
+
     const totalPages = Math.ceil(packages.length / itemsPerPage);
     if (currentPage > totalPages) currentPage = totalPages || 1;
 

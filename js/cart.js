@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function renderHistory() {
         historyContainer.innerHTML = "<h2>Booking History</h2>";
 
-        let userBookings = bookings.filter(item => item.userEmail === userEmail);
+        let userBookings = (bookings.filter(item => item.userEmail === userEmail)).reverse();
 
         if (userBookings.length === 0) {
             historyContainer.innerHTML += "<p>No past bookings.</p>";

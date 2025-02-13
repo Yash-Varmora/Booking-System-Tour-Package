@@ -145,8 +145,8 @@ document.getElementById("filterCategory").addEventListener("change", function ()
 
 document.getElementById("searchBtn").addEventListener("click", () => {
     const searchTerm = document.getElementById("searchInput").value.toLowerCase().trim();
-    const selectedCategory = document.getElementById("filterCategory").value.trim();
-    const selectedSubCategory = document.getElementById("filterSubCategory").value.trim();
+    const selectedCategory = document.getElementById("filterCategory").value.toLowerCase().trim();
+    const selectedSubCategory = document.getElementById("filterSubCategory").value.toLowerCase().trim();
     const minPrice = parseFloat(document.getElementById("priceRange").min);
     const maxPrice = parseFloat(document.getElementById("priceRange").value);
     const sortBy = document.getElementById("sortFilter").value;
@@ -157,7 +157,7 @@ document.getElementById("searchBtn").addEventListener("click", () => {
         const name = (pkg.name || "").toLowerCase();
         const detail = (pkg.detail || "").toLowerCase();
         const category = (pkg.category || "").toLowerCase();
-        const subCategory = (pkg.subCategory || "")
+        const subCategory = (pkg.subCategory || "").toLowerCase();
         const price = parseFloat(pkg.price) || 0; 
 
         const matchesSearch = searchTerm === "" || name.includes(searchTerm) || detail.includes(searchTerm);

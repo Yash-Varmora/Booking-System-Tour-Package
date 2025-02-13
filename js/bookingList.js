@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let packages = JSON.parse(localStorage.getItem("packages")) || [];
+    
+    bookings.reverse()
 
     function loadBookings() {
         bookingTableBody.innerHTML = "";
@@ -43,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <option value="Canceled" ${booking.status === "Canceled" ? "selected" : ""}>Canceled</option>
                     </select>
                 </td>
-                <td>${booking.bookingDate}</td>
+                <td>${booking.bookingDate.slice(0,10)}</td>
                 <td>${booking.travelDate}</td>
                 <td>
                    ${packageData.price}
