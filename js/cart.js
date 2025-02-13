@@ -236,3 +236,29 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 });
+function updateAuthButton() {
+    const authContainer = document.getElementById("authContainer");
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+
+    if (user) {
+        authContainer.innerHTML = `
+            <div class="profile-menu">
+                <button class="profile-button">${user.name[0].toUpperCase()}</button>
+                <div class="dropdown-content">
+                    <button id="logoutBtn">Sign Out</button>
+                </div>
+            </div>
+        `;
+
+        document.getElementById("logoutBtn").addEventListener("click", logoutUser);
+    } else {
+        window.location.href = "auth.html";
+    }
+}
+
+function logoutUser() {
+    localStorage.removeItem("loggedInUser");
+    window.location.href = "index.html";
+}
+
+updateAuthButton();

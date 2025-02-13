@@ -1,11 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
 /* General Styles */
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
     background-color: #f8f9fa;
     color: #333;
     text-align: center;
 }
+nav {
+    display: flex;
+    justify-content: space-between;
+    background-color: #6f6f6f66;
+    color: white;
+    padding: 15px 20px;
+    
+}
+
+nav div img {
+    width: 80px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+
+/* Home Button */
+.home-button {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.home-button i {
+    margin-right: 5px;
+}
+
+.home-button:hover {
+    opacity: 0.8;
+}
+
+/* Profile Menu */
+.profile-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-button {
+    margin-top: 14px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    color: #007bff;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.profile-button:hover {
+     background-color: #007bff;
+    color: white;
+}
+
+/* Dropdown Menu */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    min-width: 120px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.dropdown-content button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: none;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: background 0.3s;
+}
+
+.dropdown-content button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Show Dropdown on Click */
+.profile-menu:hover .dropdown-content {
+    display: block;
+}
+
 
 /* Headings */
 h2 {
