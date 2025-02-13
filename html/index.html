@@ -17,14 +17,32 @@
 
     <div class="search-filter-container">
         <input type="text" id="searchInput" placeholder="Search packages...">
-        <select id="filterSelect">
+    
+        <select id="filterCategory">
             <option value="">All Categories</option>
-            <option value="travel">Travel</option>
-            <option value="food">Food</option>
-            <option value="electronics">Electronics</option>
         </select>
+    
+        <select id="filterSubCategory">
+            <option value="">All Subcategories</option>
+        </select>
+    
+        <div class="price-filter">
+            <label>Max Price: <span id="priceValue">₹5000</span></label>
+            <input type="range" id="priceRange" min="1000" max="50000" step="500" value="5000">
+        </div>
+    
+        <select id="sortFilter">
+            <option value="">Sort By</option>
+            <option value="priceAsc">Price: Low to High</option>
+            <option value="priceDesc">Price: High to Low</option>
+            <option value="daysAsc">Days: Low to High</option>
+            <option value="daysDesc">Days: High to Low</option>
+        </select>
+    
         <button id="searchBtn">Search</button>
     </div>
+    
+    
 
     <div id="packagesContainer"></div>
 

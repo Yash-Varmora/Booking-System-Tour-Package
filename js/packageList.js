@@ -34,6 +34,8 @@ const loadPackages = () => {
         <p class="card-price">Price: &#8377;${pkg.price}</p>
         <p class="card-category">Category: ${pkg.category}</p>
         <p class="card-subcategory">Subcategory: ${pkg.subCategory}</p>
+        <p>Duration: ${pkg.days} Days, ${pkg.nights} Nights</p>
+
         <div class="card-buttons">
             <button class="edit-btn" onclick="window.location.href='package.html?edit=${pkg.name}'">Edit</button>
             <button class="remove-btn" onclick="removePackage('${pkg.name}')">Remove</button>

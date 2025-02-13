@@ -13,6 +13,8 @@ const loadEditingPackage = () => {
             document.getElementById("pkgDetail").value = pkg.detail;
             document.getElementById("pkgPrice").value = pkg.price;
             document.getElementById("pkgCategory").value = pkg.category;
+            document.getElementById("pkgDays").value = pkg.days || "";
+            document.getElementById("pkgNights").value = pkg.nights || "";
             updateSubcategories(pkg.category, pkg.subCategory);
 
             document.getElementById("pkgName").disabled = true;
@@ -69,6 +71,8 @@ document.getElementById("packageForm").addEventListener("submit", (e) => {
     const detail = document.getElementById("pkgDetail").value;
     const price = document.getElementById("pkgPrice").value;
     const category = document.getElementById("pkgCategory").value;
+    const days = document.getElementById("pkgDays").value;
+    const nights = document.getElementById("pkgNights").value;
     const subCategory = document.getElementById("pkgSubCategory").value;
     const image = document.getElementById("pkgImage").files[0];
 
@@ -80,7 +84,7 @@ document.getElementById("packageForm").addEventListener("submit", (e) => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 packages[existingIndex] = {
-                    name, detail, price, category, subCategory, imgSrc: e.target.result
+                    name, detail, price, category, subCategory,days, nights, imgSrc: e.target.result
                 };
                 localStorage.setItem("packages", JSON.stringify(packages));
                 redirectToListPage();
@@ -88,7 +92,7 @@ document.getElementById("packageForm").addEventListener("submit", (e) => {
             reader.readAsDataURL(image);
         } else {
             packages[existingIndex] = {
-                ...packages[existingIndex], detail, price, category, subCategory
+                ...packages[existingIndex], detail, price, category, subCategory,days, nights
             };
             localStorage.setItem("packages", JSON.stringify(packages));
             redirectToListPage();
@@ -97,7 +101,7 @@ document.getElementById("packageForm").addEventListener("submit", (e) => {
         const reader = new FileReader();
         reader.onload = (e) => {
             const imgSrc = e.target.result;
-            packages.push({ name, detail, price, category, subCategory, imgSrc });
+            packages.push({ name, detail, price, category, subCategory,days, nights, imgSrc });
             localStorage.setItem("packages", JSON.stringify(packages));
             redirectToListPage();
         };

@@ -49,6 +49,7 @@ function displayPackages(page = 1) {
         <p class="card-price">Price: &#8377;${pkg.price}</p>
         <p class="card-category">Category: ${pkg.category}</p>
         <p class="card-subcategory">Subcategory: ${pkg.subCategory}</p>
+        <p class="card-days">Duration: ${pkg.days} Days, ${pkg.nights} Nights</p>
         <button class="book-now" data-id="${pkg.id}">Book Now</button>
         </div>
         `;
@@ -69,6 +70,8 @@ function displayPackages(page = 1) {
                 detail: (pkg.detail || "").trim(),
                 category: (pkg.category || "").trim(),
                 subCategory: (pkg.subCategory || "").trim(),
+                days: parseInt(pkg.days) || 0, // Ensure days is a number
+                nights: parseInt(pkg.nights) || 0, // Ensure nights is a number
                 price: parseFloat(pkg.price) || 0, // Ensure price is a number
             };
             console.log("Stored Package:", packageData);
@@ -117,37 +120,98 @@ function updatePaginationControls(totalPages) {
     nextButton.addEventListener("click", () => displayPackages(currentPage + 1));
     paginationContainer.appendChild(nextButton);
 }
+// Function to Get Categories and Subcategories
+const categories = {
+    adventure: ["Trekking", "Hiking", "Rafting", "Scuba Diving"],
+    pilgrimage: ["Char Dham Yatra", "Mecca", "Vatican City"],
+    wildlife: ["Jungle Safari", "National Park Tours"],
+    wellness: ["Yoga Retreats", "Ayurveda Therapy"],
+    cultural: ["Historical Sites", "Architecture Tours"],
+    eco: ["Sustainable Travel", "Nature Conservation"],
+    business: ["Corporate Conferences", "Incentive Travel"],
+    educational: ["Student Excursions", "Research Trips"],
+    cruise: ["Luxury Cruises", "River Cruises"]
+};
 
-// Search & Filter Logic (Applies to ALL Fields)
+// Populate Category Dropdown
+function populateCategories() {
+    const categorySelect = document.getElementById("filterCategory");
+    categorySelect.innerHTML = `<option value="">All Categories</option>`;
+    for (let category in categories) {
+        categorySelect.innerHTML += `<option value="${category}">${category.charAt(0).toUpperCase() + category.slice(1)}</option>`;
+    }
+}
+
+// Populate Subcategory Dropdown Based on Selected Category
+document.getElementById("filterCategory").addEventListener("change", function () {
+    const subCategorySelect = document.getElementById("filterSubCategory");
+    const selectedCategory = this.value;
+
+    subCategorySelect.innerHTML = `<option value="">All Subcategories</option>`;
+    if (selectedCategory && categories[selectedCategory]) {
+        categories[selectedCategory].forEach(subCat => {
+            subCategorySelect.innerHTML += `<option value="${subCat}">${subCat}</option>`;
+        });
+    }
+});
+
+// Sort & Filter Logic
 document.getElementById("searchBtn").addEventListener("click", () => {
     const searchTerm = document.getElementById("searchInput").value.toLowerCase().trim();
-    const selectedCategory = document.getElementById("filterSelect").value.trim();
+    const selectedCategory = document.getElementById("filterCategory").value.trim();
+    const selectedSubCategory = document.getElementById("filterSubCategory").value.trim();
+    const maxPrice = parseFloat(document.getElementById("priceRange").value);
+    const sortBy = document.getElementById("sortFilter").value;
 
     let packages = getPackages();
 
     filteredPackages = packages.filter(pkg => {
-        // Convert properties to lowercase strings for case-insensitive search
         const name = (pkg.name || "").toLowerCase();
         const detail = (pkg.detail || "").toLowerCase();
         const category = (pkg.category || "").toLowerCase();
         const subCategory = (pkg.subCategory || "").toLowerCase();
-        const price = (pkg.price || "").toString().toLowerCase(); // Convert price to string
+        const price = parseFloat(pkg.price) || 0;
+        const days = parseInt(pkg.days) || 0; // Ensure `days` exists in package data
+        // const nights = parseInt(pkg.nights) || 0; // Ensure `nights` exists in package data
 
-        const matchesSearch =
-            searchTerm === "" || // No search term = match everything
-            name.includes(searchTerm) ||
-            detail.includes(searchTerm) ||
-            category.includes(searchTerm) ||
-            subCategory.includes(searchTerm) ||
-            price.includes(searchTerm);
-
+        const matchesSearch = searchTerm === "" || name.includes(searchTerm) || detail.includes(searchTerm);
         const matchesCategory = selectedCategory === "" || category === selectedCategory;
+        const matchesSubCategory = selectedSubCategory === "" || subCategory === selectedSubCategory;
+        const matchesPrice = price <= maxPrice;
 
-        return matchesSearch && matchesCategory;
+        return matchesSearch && matchesCategory && matchesSubCategory && matchesPrice;
     });
+
+    // Sorting Logic
+    if (sortBy === "priceAsc") {
+        filteredPackages.sort((a, b) => a.price - b.price);
+    } else if (sortBy === "priceDesc") {
+        filteredPackages.sort((a, b) => b.price - a.price);
+    } else if (sortBy === "daysAsc") {
+        filteredPackages.sort((a, b) => a.days - b.days);
+    } else if (sortBy === "daysDesc") {
+        filteredPackages.sort((a, b) => b.days - a.days);
+    }
 
     displayPackages(1);
 });
+
+// Set Default Price Range Display
+document.getElementById("priceRange").addEventListener("input", function () {
+    document.getElementById("priceValue").textContent = `₹${this.value}`;
+});
+
+// Populate Categories and Subcategories
+populateCategories();
+
+
+// Set Default Price Range Display
+document.getElementById("priceRange").addEventListener("input", function () {
+    document.getElementById("priceValue").textContent = `₹${this.value}`;
+});
+
+// Initialize Filters
+populateCategories();
 
 
 // Initial Load
@@ -159,9 +223,10 @@ function getLoggedInUser() {
     return JSON.parse(localStorage.getItem("loggedInUser"));
 }
 
-// Function to Logout User
+// Function to Logout User with Alert
 function logoutUser() {
     localStorage.removeItem("loggedInUser");
+    alert("You have been signed out.");
     updateAuthButton(); // Refresh UI
 }
 
@@ -171,28 +236,36 @@ function updateAuthButton() {
     const user = getLoggedInUser();
 
     if (user) {
-        // Show Profile Button if Logged In
+        // Show Profile Button with Dropdown
         authContainer.innerHTML = `
             <div class="profile-menu">
                 <button id="profileBtn" class="profile-button">${user.name[0].toUpperCase()}</button>
                 <div class="dropdown-content">
-                    <button id="logoutBtn">Logout</button>
+                    <button id="accountBtn">Account</button>
+                    <button id="logoutBtn">Sign Out</button>
                 </div>
             </div>
         `;
 
+        // Account Button Click Event (Redirect to cart.html)
+        document.getElementById("accountBtn").addEventListener("click", () => {
+            window.location.href = "cart.html";
+        });
+
         // Logout Button Click Event
         document.getElementById("logoutBtn").addEventListener("click", logoutUser);
     } else {
-        // Show Login/Register Button if Not Logged In
+        // Show Login/Register Button
         authContainer.innerHTML = `<button id="loginBtn" class="login-button">Login/Register</button>`;
         document.getElementById("loginBtn").addEventListener("click", () => {
-            window.location.href = "auth.html"; // Redirect to Login Page
+            window.location.href = "auth.html";
         });
     }
 }
 
 // Call Function on Page Load to Set Navbar Button
 updateAuthButton();
+
+
 
 

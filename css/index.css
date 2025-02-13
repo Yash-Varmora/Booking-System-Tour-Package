@@ -25,20 +25,35 @@ nav div img {
     object-fit: contain;
     mix-blend-mode: multiply;
 }
-
-/* Search & Filter */
+/* Full-Screen Search & Filter */
 .search-filter-container {
-    text-align: center;
-    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 .search-filter-container input,
 .search-filter-container select,
-.search-filter-container button {
+.search-filter-container button,
+.price-filter {
+    flex: 1;
+    min-width: 150px;
     padding: 10px;
-    margin: 5px;
     border-radius: 5px;
     border: 1px solid #ccc;
+}
+
+.price-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .search-filter-container button {
@@ -46,11 +61,13 @@ nav div img {
     color: white;
     cursor: pointer;
     transition: background 0.3s;
+    font-weight: bold;
 }
 
 .search-filter-container button:hover {
     background-color: #0056b3;
 }
+
 
 /* Profile Button */
 .profile-menu {
@@ -68,6 +85,12 @@ nav div img {
     font-weight: bold;
     border: none;
     cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.profile-button:hover {
+    background-color: #007bff;
+    color: white;
 }
 
 /* Dropdown Menu */
@@ -76,10 +99,11 @@ nav div img {
     position: absolute;
     right: 0;
     background-color: white;
-    min-width: 100px;
+    min-width: 120px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    border-radius: 8px;
     z-index: 10;
+    overflow: hidden;
 }
 
 .dropdown-content button {
@@ -89,18 +113,39 @@ nav div img {
     background: none;
     text-align: left;
     cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: background 0.3s;
 }
 
 .dropdown-content button:hover {
-    background-color: #f4f4f4;
+    background-color: #007bff;
+    color: white;
 }
 
-/* Show Dropdown on Hover */
+/* Show Dropdown on Click */
 .profile-menu:hover .dropdown-content {
     display: block;
 }
 
-/* Packages */
+/* Login/Register Button */
+.login-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
+}
+
+
 #packagesContainer {
     display: grid;
     grid-template-columns: auto auto auto;
