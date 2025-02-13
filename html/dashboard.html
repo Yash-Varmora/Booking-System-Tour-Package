@@ -3,9 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
     <h1>Welcome to Admin Dashboard</h1>
-    <p>This is the dashboard page.</p>
+    <div class="dashboard-container">
+        <div class="dashboard-card">
+            <h2>Total Packages</h2>
+            <p id="totalPackages">0</p>
+        </div>
+        <div class="dashboard-card">
+            <h2>Total Bookings</h2>
+            <p id="totalBookings">0</p>
+        </div>
+        <div class="dashboard-card">
+            <h2>Total Users</h2>
+            <p id="totalUsers">0</p>
+        </div>
+    </div>
+
+
+    <script src="../js/dashboard.js"></script>
 </body>
 </html>
