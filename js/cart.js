@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (item.status === "Pending") {
                 editBtn = `<button class="edit" onclick="enableEdit(${index})">Edit</button>`;
             }
-            if (item.status === "Cancelled" || travelDate < currentDate) {
+            if (item.status === "Canceled" || travelDate < currentDate) {
                 deleteBtn = `<button class="delete" onclick="deleteHistory(${index})">Delete</button>`;
             } else if (travelDate > currentDate) {
                 cancelBtn = `<button class="cancel" onclick="cancelBooking(${index})">Cancel Booking</button>`;
@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.cancelBooking = function (index) {
         if (confirm("Are you sure you want to cancel this booking?")) {
-            bookings[index].status = "Cancelled";
+            bookings[index].status = "Canceled";
             localStorage.setItem("bookings", JSON.stringify(bookings));
             renderHistory();
         }
