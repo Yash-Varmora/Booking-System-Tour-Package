@@ -1,13 +1,12 @@
 function checkAuth() {
     const user = localStorage.getItem("loggedInUser");
-    
+
     if (!user) {
         alert("Access denied! Please log in.");
         window.location.href = "auth.html";
     }
 }
 checkAuth();
-
 
 document.addEventListener("DOMContentLoaded", function () {
     const cartContainer = document.getElementById("cart-items");
@@ -25,11 +24,11 @@ document.addEventListener("DOMContentLoaded", function () {
             booking[selectedPackage.id] = {
                 userEmail,
                 packageTitle: selectedPackage.name,
-                packagePrice: selectedPackage.price, // Added package price
+                packagePrice: selectedPackage.price,
                 persons: 1,
-                totalPrice: selectedPackage.price, // Initial total price
+                totalPrice: selectedPackage.price,
                 status: "Pending",
-                travelDate: new Date().toISOString().split("T")[0], // Default to today
+                travelDate: new Date().toISOString().split("T")[0],
                 bookingDate: new Date().toISOString(),
             };
 
@@ -72,8 +71,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 </p>
                 <p><strong>Booking Date:</strong> ${new Date(item.bookingDate).toLocaleString()}</p>
                 <div class="cart-buttons">
-                    <button onclick="confirmBooking('${key}')">Book</button>
-                    <button onclick="deleteBooking('${key}')">Delete</button>
+                    <button class="book" onclick="confirmBooking('${key}')">Book</button>
+                    <button class="delete" onclick="deleteBooking('${key}')">Delete</button>
                 </div>
             `;
 
@@ -86,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
     window.updatePeople = function (key, change) {
         if (booking[key].persons + change >= 1) {
             booking[key].persons += change;
-            booking[key].totalPrice = booking[key].persons * booking[key].packagePrice; // Update total price
+            booking[key].totalPrice = booking[key].persons * booking[key].packagePrice;
 
             document.getElementById(`people-count-${key}`).textContent = booking[key].persons;
             document.getElementById(`total-price-${key}`).textContent = booking[key].totalPrice;
@@ -102,12 +101,8 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     window.confirmBooking = function (key) {
-        alert("Booking done successfully!");
-
-        // Move booking to history
         bookings.push({ ...booking[key] });
 
-        // Remove from current bookings
         delete booking[key];
 
         localStorage.setItem("booking", JSON.stringify(booking));
@@ -115,6 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         renderCart();
         renderHistory();
+        alert("Booking done successfully!");
     };
 
     window.deleteBooking = function (key) {
@@ -146,22 +142,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
             let cancelBtn = "";
             let deleteBtn = "";
+            let editBtn = "";
 
+            if (item.status === "Pending") {
+                editBtn = `<button class="edit" onclick="enableEdit(${index})">Edit</button>`;
+            }
             if (item.status === "Cancelled" || travelDate < currentDate) {
-                deleteBtn = `<button onclick="deleteHistory(${index})">Delete</button>`;
+                deleteBtn = `<button class="delete" onclick="deleteHistory(${index})">Delete</button>`;
             } else if (travelDate > currentDate) {
-                cancelBtn = `<button onclick="cancelBooking(${index})">Cancel Booking</button>`;
+                cancelBtn = `<button class="cancel" onclick="cancelBooking(${index})">Cancel Booking</button>`;
             }
 
             historyItem.innerHTML = `
                 <h3>${item.packageTitle}</h3>
                 <p><strong>Package Price:</strong> &#8377;${item.packagePrice}</p>
-                <p><strong>Persons:</strong> ${item.persons}</p>
-                <p><strong>Total Price:</strong> &#8377;${item.totalPrice}</p>
-                <p><strong>Travel Date:</strong> ${item.travelDate}</p>
+                <p><strong>Persons:</strong> <span id="persons-${index}">${item.persons}</span></p>
+                <p><strong>Total Price:</strong> &#8377;<span id="total-${index}">${item.totalPrice}</span></p>
+                <p><strong>Travel Date:</strong> 
+                    <input type="date" id="edit-date-${index}" value="${item.travelDate}" disabled>
+                </p>
                 <p><strong>Booking Date:</strong> ${new Date(item.bookingDate).toLocaleString()}</p>
                 <p><strong>Status:</strong> ${item.status}</p>
                 <div class="history-buttons">
+                    ${editBtn}
                     ${cancelBtn}
                     ${deleteBtn}
                 </div>
@@ -171,11 +174,57 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    window.enableEdit = function (index) {
+        let dateInput = document.getElementById(`edit-date-${index}`);
+        let personsSpan = document.getElementById(`persons-${index}`);
+        
+        if (dateInput.disabled) {
+            dateInput.disabled = false;
+            
+            personsSpan.innerHTML = `
+                <button onclick="updateHistoryPersons(${index}, -1)">➖</button>
+                <span id="edit-persons-${index}">${bookings[index].persons}</span>
+                <button onclick="updateHistoryPersons(${index}, 1)">➕</button>
+            `;
+
+            let buttonsContainer = document.querySelectorAll(".history-buttons")[index];
+            if (!buttonsContainer.querySelector(".save-btn")) {
+                let saveBtn = document.createElement("button");
+                saveBtn.classList.add("edit", "save-btn");
+                saveBtn.textContent = "Save";
+                saveBtn.onclick = function () { saveEdit(index); };
+                buttonsContainer.appendChild(saveBtn);
+            }
+        }
+    };
+
+    window.updateHistoryPersons = function (index, change) {
+        let newPersons = bookings[index].persons + change;
+        if (newPersons >= 1) {
+            bookings[index].persons = newPersons;
+            bookings[index].totalPrice = bookings[index].persons * bookings[index].packagePrice;
+            
+            document.getElementById(`edit-persons-${index}`).textContent = newPersons;
+            document.getElementById(`total-${index}`).textContent = bookings[index].totalPrice;
+        }
+    };
+
+    window.saveEdit = function (index) {
+        bookings[index].travelDate = document.getElementById(`edit-date-${index}`).value;
+        bookings[index].persons = parseInt(document.getElementById(`edit-persons-${index}`).textContent);
+        bookings[index].totalPrice = bookings[index].persons * bookings[index].packagePrice;
+
+        localStorage.setItem("bookings", JSON.stringify(bookings));
+        renderHistory();
+        alert("Booking updated successfully!");
+    };
+
+
     window.cancelBooking = function (index) {
         if (confirm("Are you sure you want to cancel this booking?")) {
             bookings[index].status = "Cancelled";
             localStorage.setItem("bookings", JSON.stringify(bookings));
-            renderHistory(); // Re-render history to update buttons
+            renderHistory();
         }
     };
 
