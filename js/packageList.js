@@ -2,11 +2,10 @@ function checkAdmin() {
     const user = JSON.parse(localStorage.getItem("loggedInAdmin"));
 
     if (!user || (user.name !== "Admin" && user.email !== "admin@gmail.com")) {
-        window.location.href = "auth.html"; // Redirect unauthorized users
+        window.location.href = "auth.html";
     }
 }
 
-// Call this on admin-only pages
 checkAdmin();
 
 const itemsPerPage = 6;

@@ -5,7 +5,6 @@
     font-family: Arial, sans-serif;
 }
 
-/* General Styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
@@ -29,7 +28,6 @@ nav div img {
     mix-blend-mode: multiply;
 }
 
-/* Home Button */
 .home-button {
     margin-left: auto;
     display: flex;
@@ -50,7 +48,6 @@ nav div img {
     opacity: 0.8;
 }
 
-/* Profile Menu */
 .profile-menu {
     position: relative;
     display: inline-block;
@@ -75,7 +72,6 @@ nav div img {
     color: white;
 }
 
-/* Dropdown Menu */
 .dropdown-content {
     display: none;
     position: absolute;
@@ -105,19 +101,16 @@ nav div img {
     color: white;
 }
 
-/* Show Dropdown on Click */
 .profile-menu:hover .dropdown-content {
     display: block;
 }
 
 
-/* Headings */
 h2 {
     color: #444;
     margin-bottom: 15px;
 }
 
-/* Containers */
 .cart-container, .history-container {
     width: 90%;
     max-width: 700px;
@@ -128,7 +121,6 @@ h2 {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Booking & History Items */
 .cart-item, .history-item {
     background: white;
     padding: 20px;
@@ -149,14 +141,12 @@ h2 {
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Booking Title */
 .cart-item h3, .history-item h3 {
     margin-top: 0;
     color: #222;
     font-size: 20px;
 }
 
-/* Booking Details */
 .cart-item p, .history-item p {
     font-size: 14px;
     margin: 5px 0;
@@ -167,7 +157,6 @@ h2 {
     color: #000;
 }
 
-/* Buttons */
 .button-container {
     display: flex;
     justify-content: space-between;
@@ -188,7 +177,6 @@ button:hover {
     opacity: 0.85;
 }
 
-/* Button Colors */
 button.book {
     background-color: #007bff;
     color: white;
@@ -209,27 +197,9 @@ button.cancel {
     color: white;
 }
 
-/* Date Input */
 input[type="date"] {
     padding: 6px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .cart-container, .history-container {
-        width: 95%;
-    }
-
-    .button-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    button {
-        width: 100%;
-        margin: 5px 0;
-    }
 }

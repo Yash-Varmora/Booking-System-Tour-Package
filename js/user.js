@@ -2,11 +2,10 @@ function checkAdmin() {
     const user = JSON.parse(localStorage.getItem("loggedInAdmin"));
 
     if (!user || (user.name !== "Admin" && user.email !== "admin@gmail.com")) {
-        window.location.href = "auth.html"; // Redirect unauthorized users
+        window.location.href = "auth.html";
     }
 }
 
-// Call this on admin-only pages
 checkAdmin();
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -17,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const saveProfile = document.getElementById("saveProfile");
     const logoutProfile = document.getElementById("logoutProfile");
 
-    // Load user data from localStorage
     const user = JSON.parse(localStorage.getItem("users"));
     if (user) {
         profilePic.src = user.photo || "../src/dummy-user.png";
@@ -25,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
         userAge.value = user.age || "";
     }
 
-    // Save user profile
     saveProfile.addEventListener("click", () => {
         const reader = new FileReader();
         reader.onload = function () {
@@ -37,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             localStorage.setItem("user", JSON.stringify(updatedUser));
             alert("Profile saved successfully!");
-            window.location.href = "index.html"; // Redirect back to homepage
+            window.location.href = "index.html";
         };
 
         if (uploadPhoto.files[0]) {
@@ -47,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Logout user
     logoutProfile.addEventListener("click", () => {
         localStorage.removeItem("user");
         alert("Logged out successfully!");
