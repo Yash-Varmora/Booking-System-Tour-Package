@@ -46,7 +46,9 @@ function displayPackages(page = 1) {
             <h3>${pkg.name}</h3>
             <p>${pkg.detail}</p>
             <p class="price">Price: ₹${pkg.price}</p>
-            <button class="book-now" data-id="${pkg.id}">Book Now</button>
+            <p class="category">Category: ${pkg.category}</p>
+            <p class="SubCategory">SubCategory: ${pkg.subCategory}</p>   
+            <button style="margin-top:10px;" class="book-now" data-id="${pkg.id}">Book Now</button>
         `;
 
         container.appendChild(card);
@@ -58,6 +60,19 @@ function displayPackages(page = 1) {
                 window.location.href = "auth.html";
                 return;
             }
+            let packageData = {
+                // id: card.dataset.packageId, // Ensure the card has data-package-id attribute
+                // imgSrc: pkg.imgSrc,
+                name: (pkg.name || "").trim(),
+                detail: (pkg.detail || "").trim(),
+                category: (pkg.category || "").trim(),
+                subCategory: (pkg.subCategory || "").trim(),
+                price: parseFloat(pkg.price) || 0, // Ensure price is a number
+            };
+            console.log("Stored Package:", packageData);
+        
+            // Store the selected package in localStorage
+            localStorage.setItem("selectedPackage", JSON.stringify(packageData));
             window.location.href = "cart.html";
         });
     });
@@ -101,24 +116,37 @@ function updatePaginationControls(totalPages) {
     paginationContainer.appendChild(nextButton);
 }
 
-// Search & Filter Logic
+// Search & Filter Logic (Applies to ALL Fields)
 document.getElementById("searchBtn").addEventListener("click", () => {
-    const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-    const selectedCategory = document.getElementById("filterSelect").value;
+    const searchTerm = document.getElementById("searchInput").value.toLowerCase().trim();
+    const selectedCategory = document.getElementById("filterSelect").value.trim();
 
     let packages = getPackages();
 
-    if (searchTerm) {
-        packages = packages.filter(pkg => pkg.name.toLowerCase().includes(searchTerm));
-    }
+    filteredPackages = packages.filter(pkg => {
+        // Convert properties to lowercase strings for case-insensitive search
+        const name = (pkg.name || "").toLowerCase();
+        const detail = (pkg.detail || "").toLowerCase();
+        const category = (pkg.category || "").toLowerCase();
+        const subCategory = (pkg.subCategory || "").toLowerCase();
+        const price = (pkg.price || "").toString().toLowerCase(); // Convert price to string
 
-    if (selectedCategory) {
-        packages = packages.filter(pkg => pkg.category === selectedCategory);
-    }
+        const matchesSearch =
+            searchTerm === "" || // No search term = match everything
+            name.includes(searchTerm) ||
+            detail.includes(searchTerm) ||
+            category.includes(searchTerm) ||
+            subCategory.includes(searchTerm) ||
+            price.includes(searchTerm);
 
-    filteredPackages = packages;
+        const matchesCategory = selectedCategory === "" || category === selectedCategory;
+
+        return matchesSearch && matchesCategory;
+    });
+
     displayPackages(1);
 });
+
 
 // Initial Load
 filteredPackages = [];
