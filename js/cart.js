@@ -58,13 +58,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
             cartItem.innerHTML = `
                 <h3>${item.packageTitle}</h3>
-                <p><strong>Package Price:</strong> $${item.packagePrice}</p>
+                <p><strong>Package Price:</strong> &#8377;${item.packagePrice}</p>
                 <p><strong>Persons:</strong> 
                     <button onclick="updatePeople('${key}', -1)">➖</button>
                     <span id="people-count-${key}">${item.persons}</span>
                     <button onclick="updatePeople('${key}', 1)">➕</button>
                 </p>
-                <p><strong>Total Price:</strong> $<span id="total-price-${key}">${item.totalPrice}</span></p>
+                <p><strong>Total Price:</strong> &#8377;<span id="total-price-${key}">${item.totalPrice}</span></p>
                 <p>
                     <label><strong>Travel Date:</strong> 
                         <input type="date" id="date-${key}" value="${item.travelDate}" onchange="updateDate('${key}')">
@@ -155,9 +155,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             historyItem.innerHTML = `
                 <h3>${item.packageTitle}</h3>
-                <p><strong>Package Price:</strong> $${item.packagePrice}</p>
+                <p><strong>Package Price:</strong> &#8377;${item.packagePrice}</p>
                 <p><strong>Persons:</strong> ${item.persons}</p>
-                <p><strong>Total Price:</strong> $${item.totalPrice}</p>
+                <p><strong>Total Price:</strong> &#8377;${item.totalPrice}</p>
                 <p><strong>Travel Date:</strong> ${item.travelDate}</p>
                 <p><strong>Booking Date:</strong> ${new Date(item.bookingDate).toLocaleString()}</p>
                 <p><strong>Status:</strong> ${item.status}</p>
