@@ -1,3 +1,14 @@
+function checkAdmin() {
+    const user = JSON.parse(localStorage.getItem("loggedInAdmin"));
+
+    if (!user || (user.name !== "Admin" && user.email !== "admin@gmail.com")) {
+        window.location.href = "auth.html"; // Redirect unauthorized users
+    }
+}
+
+// Call this on admin-only pages
+checkAdmin();
+
 let editingPackageName = null;
 
 const loadEditingPackage = () => {

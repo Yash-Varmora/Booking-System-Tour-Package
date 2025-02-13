@@ -62,6 +62,7 @@ const loginuser = () => {
     // if (!isemailvalid(email)) return showAlert('Invalid email address!');
 
     if ((email === "admin@gmail.com" || email=== "Admin") && password === "admin") {
+        localStorage.setItem("loggedInAdmin", JSON.stringify({ name: "Admin", email: "admin@gmail.com" }));
         showAlert("Welcome, Admin! Redirecting to dashboard...", true);
         window.location.href = "adminDashboard.html";
         return;

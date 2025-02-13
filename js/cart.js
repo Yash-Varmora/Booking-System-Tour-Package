@@ -1,3 +1,14 @@
+function checkAuth() {
+    const user = localStorage.getItem("loggedInUser");
+    
+    if (!user) {
+        alert("Access denied! Please log in.");
+        window.location.href = "auth.html";
+    }
+}
+checkAuth();
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const cartContainer = document.getElementById("cart-items");
     const historyContainer = document.getElementById("booking-history");

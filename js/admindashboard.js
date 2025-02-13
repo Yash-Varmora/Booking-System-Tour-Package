@@ -1,3 +1,16 @@
+function checkAdmin() {
+    const user = JSON.parse(localStorage.getItem("loggedInAdmin"));
+
+    if (!user || (user.name !== "Admin" && user.email !== "admin@gmail.com")) {
+        window.location.href = "auth.html"; // Redirect unauthorized users
+    }
+}
+
+// Call this on admin-only pages
+checkAdmin();
+
+
+
 const loadPage = (page) => {
     let contentFrame = document.getElementById("contentFrame");
 
@@ -38,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.removeItem("activePage");
+    localStorage.removeItem("loggedInAdmin");
     alert("You have been logged out.");
     window.location.href = "index.html";
 });

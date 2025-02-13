@@ -256,7 +256,7 @@ function updateAuthButton() {
         document.getElementById("logoutBtn").addEventListener("click", logoutUser);
     } else {
         // Show Login/Register Button
-        authContainer.innerHTML = `<button id="loginBtn" class="login-button">Login/Register</button>`;
+        authContainer.innerHTML = `<button id="loginBtn" class="login-button">Login / Register</button>`;
         document.getElementById("loginBtn").addEventListener("click", () => {
             window.location.href = "auth.html";
         });
