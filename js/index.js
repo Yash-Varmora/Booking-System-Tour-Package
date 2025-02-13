@@ -3,17 +3,14 @@ const itemsPerPage = 6;
 let currentPage = 1;
 let filteredPackages = [];
 
-// Fetch packages from localStorage
 function getPackages() {
     return JSON.parse(localStorage.getItem("packages")) || [];
 }
 
-// Check if user is logged in
 function isUserLoggedIn() {
     return localStorage.getItem("loggedInUser") !== null;
 }
 
-// Display packages with pagination
 function displayPackages(page = 1) {
     const container = document.getElementById("packagesContainer");
     const paginationContainer = document.getElementById("pagination");
@@ -64,19 +61,17 @@ function displayPackages(page = 1) {
                 return;
             }
             let packageData = {
-                // id: card.dataset.packageId, // Ensure the card has data-package-id attribute
-                // imgSrc: pkg.imgSrc,
+               
                 name: (pkg.name || "").trim(),
                 detail: (pkg.detail || "").trim(),
                 category: (pkg.category || "").trim(),
                 subCategory: (pkg.subCategory || "").trim(),
-                days: parseInt(pkg.days) || 0, // Ensure days is a number
-                nights: parseInt(pkg.nights) || 0, // Ensure nights is a number
-                price: parseFloat(pkg.price) || 0, // Ensure price is a number
+                days: parseInt(pkg.days) || 0, 
+                nights: parseInt(pkg.nights) || 0, 
+                price: parseFloat(pkg.price) || 0, 
             };
             console.log("Stored Package:", packageData);
         
-            // Store the selected package in localStorage
             localStorage.setItem("selectedPackage", JSON.stringify(packageData));
             window.location.href = "cart.html";
         });
@@ -85,7 +80,6 @@ function displayPackages(page = 1) {
     updatePaginationControls(totalPages);
 }
 
-// Update Pagination Controls (Fixes Next & Previous Buttons)
 function updatePaginationControls(totalPages) {
     const paginationContainer = document.getElementById("pagination");
     if (!paginationContainer) return;
@@ -94,7 +88,6 @@ function updatePaginationControls(totalPages) {
 
     if (totalPages <= 1) return;
 
-    // Previous Button
     const prevButton = document.createElement("button");
     prevButton.textContent = "Prev";
     prevButton.classList.add("pagination-btn");
@@ -102,7 +95,6 @@ function updatePaginationControls(totalPages) {
     prevButton.addEventListener("click", () => displayPackages(currentPage - 1));
     paginationContainer.appendChild(prevButton);
 
-    // Page Number Buttons
     for (let i = 1; i <= totalPages; i++) {
         const pageButton = document.createElement("button");
         pageButton.textContent = i;
@@ -112,7 +104,6 @@ function updatePaginationControls(totalPages) {
         paginationContainer.appendChild(pageButton);
     }
 
-    // Next Button
     const nextButton = document.createElement("button");
     nextButton.textContent = "Next";
     nextButton.classList.add("pagination-btn");
@@ -120,7 +111,6 @@ function updatePaginationControls(totalPages) {
     nextButton.addEventListener("click", () => displayPackages(currentPage + 1));
     paginationContainer.appendChild(nextButton);
 }
-// Function to Get Categories and Subcategories
 const categories = {
     adventure: ["Trekking", "Hiking", "Rafting", "Scuba Diving"],
     pilgrimage: ["Char Dham Yatra", "Mecca", "Vatican City"],
@@ -133,7 +123,6 @@ const categories = {
     cruise: ["Luxury Cruises", "River Cruises"]
 };
 
-// Populate Category Dropdown
 function populateCategories() {
     const categorySelect = document.getElementById("filterCategory");
     categorySelect.innerHTML = `<option value="">All Categories</option>`;
@@ -142,7 +131,6 @@ function populateCategories() {
     }
 }
 
-// Populate Subcategory Dropdown Based on Selected Category
 document.getElementById("filterCategory").addEventListener("change", function () {
     const subCategorySelect = document.getElementById("filterSubCategory");
     const selectedCategory = this.value;
@@ -155,11 +143,11 @@ document.getElementById("filterCategory").addEventListener("change", function ()
     }
 });
 
-// Sort & Filter Logic
 document.getElementById("searchBtn").addEventListener("click", () => {
     const searchTerm = document.getElementById("searchInput").value.toLowerCase().trim();
     const selectedCategory = document.getElementById("filterCategory").value.trim();
     const selectedSubCategory = document.getElementById("filterSubCategory").value.trim();
+    const minPrice = parseFloat(document.getElementById("priceRange").min);
     const maxPrice = parseFloat(document.getElementById("priceRange").value);
     const sortBy = document.getElementById("sortFilter").value;
 
@@ -170,19 +158,16 @@ document.getElementById("searchBtn").addEventListener("click", () => {
         const detail = (pkg.detail || "").toLowerCase();
         const category = (pkg.category || "").toLowerCase();
         const subCategory = (pkg.subCategory || "")
-        const price = parseFloat(pkg.price) || 0;
-        const days = parseInt(pkg.days) || 0; // Ensure `days` exists in package data
-        // const nights = parseInt(pkg.nights) || 0; // Ensure `nights` exists in package data
+        const price = parseFloat(pkg.price) || 0; 
 
         const matchesSearch = searchTerm === "" || name.includes(searchTerm) || detail.includes(searchTerm);
         const matchesCategory = selectedCategory === "" || category === selectedCategory;
         const matchesSubCategory = selectedSubCategory === "" || subCategory === selectedSubCategory;
-        const matchesPrice = price <= maxPrice;
+        const matchesPrice = price >= minPrice && price <= maxPrice;
 
         return matchesSearch && matchesCategory && matchesSubCategory && matchesPrice;
     });
 
-    // Sorting Logic
     if (sortBy === "priceAsc") {
         filteredPackages.sort((a, b) => a.price - b.price);
     } else if (sortBy === "priceDesc") {
@@ -194,49 +179,35 @@ document.getElementById("searchBtn").addEventListener("click", () => {
     }
 
     displayPackages(1);
+
 });
 
-// Set Default Price Range Display
 document.getElementById("priceRange").addEventListener("input", function () {
     document.getElementById("priceValue").textContent = `₹${this.value}`;
 });
 
-// Populate Categories and Subcategories
 populateCategories();
 
 
-// Set Default Price Range Display
-document.getElementById("priceRange").addEventListener("input", function () {
-    document.getElementById("priceValue").textContent = `₹${this.value}`;
-});
 
-// Initialize Filters
-populateCategories();
-
-
-// Initial Load
 filteredPackages = [];
 displayPackages(currentPage);
 
-// Function to Check if User is Logged In
 function getLoggedInUser() {
     return JSON.parse(localStorage.getItem("loggedInUser"));
 }
 
-// Function to Logout User with Alert
 function logoutUser() {
     localStorage.removeItem("loggedInUser");
     alert("You have been signed out.");
-    updateAuthButton(); // Refresh UI
+    updateAuthButton(); 
 }
 
-// Function to Update Navbar (Login/Register OR Profile)
 function updateAuthButton() {
     const authContainer = document.getElementById("authContainer");
     const user = getLoggedInUser();
 
     if (user) {
-        // Show Profile Button with Dropdown
         authContainer.innerHTML = `
             <div class="profile-menu">
                 <button id="profileBtn" class="profile-button">${user.name[0].toUpperCase()}</button>
@@ -247,15 +218,12 @@ function updateAuthButton() {
             </div>
         `;
 
-        // Account Button Click Event (Redirect to cart.html)
         document.getElementById("accountBtn").addEventListener("click", () => {
             window.location.href = "cart.html";
         });
 
-        // Logout Button Click Event
         document.getElementById("logoutBtn").addEventListener("click", logoutUser);
     } else {
-        // Show Login/Register Button
         authContainer.innerHTML = `<button id="loginBtn" class="login-button">Login / Register</button>`;
         document.getElementById("loginBtn").addEventListener("click", () => {
             window.location.href = "auth.html";
@@ -263,7 +231,6 @@ function updateAuthButton() {
     }
 }
 
-// Call Function on Page Load to Set Navbar Button
 updateAuthButton();
 
 

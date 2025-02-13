@@ -24,7 +24,6 @@ const initializeAdmin = () => {
     }
 };
 
-// Call this function when the script loads
 initializeAdmin();
 
 
@@ -59,7 +58,6 @@ const loginuser = () => {
     const email = document.getElementById('lname').value.trim();
     const password = document.getElementById('lpassword').value.trim();
     if (isempty(email, password)) return showAlert('All fields are required!');
-    // if (!isemailvalid(email)) return showAlert('Invalid email address!');
 
     if ((email === "admin@gmail.com" || email=== "Admin") && password === "admin") {
         localStorage.setItem("loggedInAdmin", JSON.stringify({ name: "Admin", email: "admin@gmail.com" }));
@@ -69,21 +67,13 @@ const loginuser = () => {
     }
     
     let users = getuser();
-    // const validuser = users.find((user) => (user.email === email || user.name === email) && user.password === password);
-    // // validuser ? showAlert(`Welcome, ${validuser.name} ! Login successful.`) : showAlert("Invalid email or password!");
-    // if(validuser){
-    //     showAlert(`Welcome, ${validuser.name} ! Login successful.`);
-    //     window.location.href = "index.html";
-    // }else{
-    //     showAlert("Invalid email or password!");
-    // }
 
     let validuserIndex = users.findIndex(user => (user.email === email || user.name === email) && user.password === password);
 
     if (validuserIndex !== -1) {
-        users[validuserIndex].loggedIn = true; // ✅ Add "loggedIn" without overwriting
+        users[validuserIndex].loggedIn = true; 
         saveUser(users);
-        localStorage.setItem("loggedInUser", JSON.stringify(users[validuserIndex])); // ✅ Store logged-in user separately
+        localStorage.setItem("loggedInUser", JSON.stringify(users[validuserIndex]));
 
         showAlert(`Welcome, ${users[validuserIndex].name}! Login successful.`);
         window.location.href = "index.html";
