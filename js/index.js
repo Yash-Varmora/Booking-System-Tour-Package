@@ -241,7 +241,7 @@ function updateAuthButton() {
             <div class="profile-menu">
                 <button id="profileBtn" class="profile-button">${user.name[0].toUpperCase()}</button>
                 <div class="dropdown-content">
-                    <button id="accountBtn">Account</button>
+                    <button id="accountBtn">Cart</button>
                     <button id="logoutBtn">Sign Out</button>
                 </div>
             </div>
